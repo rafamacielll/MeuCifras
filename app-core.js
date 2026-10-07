@@ -32,6 +32,7 @@ const els={
   authOverlay:$("#authOverlay"),loginTab:$("#loginTab"),signupTab:$("#signupTab"),
   authForm:$("#authForm"),authEmail:$("#authEmail"),authPassword:$("#authPassword"),
   authSubmitBtn:$("#authSubmitBtn"),authMessage:$("#authMessage"),
+  resendConfirmBtn:$("#resendConfirmBtn"),
   accountChip:$("#accountChip"),logoutBtn:$("#logoutBtn")
 };
 
@@ -44,6 +45,7 @@ let editingPlaylistId=null;
 let authMode="login";
 let currentUser=null;
 
+const APP_URL="https://rafamacielll.github.io/MeuCifras/";
 const localSongsKey="meu-cifras-songs-v3";
 const localPlaylistsKey="meu-cifras-playlists-v3";
 const localMigrationKey="meu-cifras-cloud-migrated-v1";
@@ -69,6 +71,7 @@ function setAuthMode(mode){
   els.signupTab.classList.toggle("active",!login);
   els.authSubmitBtn.textContent=login?"Entrar":"Criar conta";
   els.authPassword.autocomplete=login?"current-password":"new-password";
+  els.resendConfirmBtn.style.display="none";
   setAuthMessage("");
 }
 
@@ -90,7 +93,19 @@ async function signIn(email,password){
   return data;
 }
 async function signUp(email,password){
-  const {data,error}=await db.auth.signUp({email,password});
+  const {data,error}=await db.auth.signUp({
+    email,password,
+    options:{emailRedirectTo:APP_URL}
+  });
+  if(error)throw error;
+  return data;
+}
+async function resendSignupConfirmation(email){
+  const {data,error}=await db.auth.resend({
+    type:"signup",
+    email,
+    options:{emailRedirectTo:APP_URL}
+  });
   if(error)throw error;
   return data;
 }
