@@ -14,16 +14,35 @@ els.authForm.addEventListener("submit",async e=>{
       if(data.session){
         setAuthMessage("Conta criada.","success");
       }else{
+        els.resendConfirmBtn.style.display="flex";
         setAuthMessage("Conta criada. Confira seu e-mail para confirmar o cadastro.","success");
       }
     }
   }catch(err){
-    setAuthMessage(err.message||"Não foi possível continuar.","error");
+    const msg=err.message||"Não foi possível continuar.";
+    if(/confirm/i.test(msg))els.resendConfirmBtn.style.display="flex";
+    setAuthMessage(msg,"error");
   }finally{
     els.authSubmitBtn.disabled=false;
   }
 });
 els.logoutBtn.addEventListener("click",async()=>{if(db)await db.auth.signOut()});
+els.resendConfirmBtn.addEventListener("click",async()=>{
+  if(!db)return;
+  const email=els.authEmail.value.trim();
+  if(!email){setAuthMessage("Digite seu e-mail acima.","error");return;}
+  els.resendConfirmBtn.disabled=true;
+  setAuthMessage("Reenviando confirmação...");
+  try{
+    await resendSignupConfirmation(email);
+    setAuthMessage("Novo e-mail enviado. Use o link mais recente.","success");
+  }catch(err){
+    setAuthMessage(err.message||"Não foi possível reenviar.","error");
+  }finally{
+    els.resendConfirmBtn.disabled=false;
+  }
+});
+
 
 els.list.addEventListener("click",e=>{const b=e.target.closest(".song-row");if(b)selectSong(b.dataset.id)});
 [els.search,els.artistFilter,els.genreFilter].forEach(el=>{
