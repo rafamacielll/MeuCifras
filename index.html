@@ -12,32 +12,6 @@
 
 <body>
 
-<div id="authOverlay" class="auth-overlay" hidden>
-  <section class="auth-card">
-    <div class="auth-brand">MeuCifras</div>
-    <div class="auth-sub">Entre para acessar suas cifras em qualquer aparelho.</div>
-
-    <div class="auth-tabs">
-      <button id="loginTab" class="auth-tab active" type="button">Entrar</button>
-      <button id="signupTab" class="auth-tab" type="button">Criar conta</button>
-    </div>
-
-    <form id="authForm" class="auth-form">
-      <div class="form-group">
-        <label class="form-label" for="authEmail">E-mail</label>
-        <input id="authEmail" class="input-light" type="email" required autocomplete="email">
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="authPassword">Senha</label>
-        <input id="authPassword" class="input-light" type="password" required minlength="6" autocomplete="current-password">
-      </div>
-      <button id="authSubmitBtn" class="action-btn green" type="submit" style="justify-content:center">Entrar</button>
-      <button id="resendConfirmBtn" class="action-btn" type="button" style="justify-content:center;display:none">Reenviar confirmação</button>
-      <div id="authMessage" class="auth-message"></div>
-    </form>
-  </section>
-</div>
-
 <main class="app">
 
   <aside class="sidebar">
@@ -108,15 +82,9 @@
   <section class="main">
 
     <div class="topline">
-      <div class="top-account">
-        <div id="accountChip" class="account-chip" hidden></div>
-        <button id="logoutBtn" class="logout-btn" type="button" title="Sair" hidden>
-          <svg class="icon" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M14 3h6a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-6"/></svg>
-        </button>
-        <button id="themeToggle" class="theme-btn" type="button" title="Ativar modo escuro">
-          <svg id="themeIcon" class="icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
-        </button>
-      </div>
+      <button id="themeToggle" class="theme-btn" type="button" title="Ativar modo escuro">
+        <svg id="themeIcon" class="icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+      </button>
     </div>
 
     <div class="scroll">
