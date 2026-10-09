@@ -50,3 +50,24 @@ els.themeToggle.addEventListener("click",()=>{const next=document.body.classList
 
 refreshUI();
 initData();
+
+// Navegação por páginas: cada clique avança ou volta exatamente uma tela visível.
+const pageNavStyle=document.createElement("link");
+pageNavStyle.rel="stylesheet";
+pageNavStyle.href="./page-navigation.css";
+document.head.appendChild(pageNavStyle);
+
+const pageNav=document.createElement("nav");
+pageNav.id="pageNav";
+pageNav.className="page-nav";
+pageNav.setAttribute("aria-label","Navegação por páginas");
+pageNav.innerHTML=`
+  <button id="pageUpBtn" class="page-nav-btn" type="button" aria-label="Página anterior" title="Página anterior">↑</button>
+  <span id="pageNavCount" class="page-nav-count">1 / 1</span>
+  <button id="pageDownBtn" class="page-nav-btn" type="button" aria-label="Próxima página" title="Próxima página">↓</button>
+`;
+document.body.appendChild(pageNav);
+
+const pageNavScript=document.createElement("script");
+pageNavScript.src="./page-navigation.js";
+document.body.appendChild(pageNavScript);
