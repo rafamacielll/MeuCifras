@@ -1,0 +1,57 @@
+@media (max-width: 900px){
+  body{overflow:auto}
+
+  .app{
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+    height:auto;
+  }
+
+  .sidebar{
+    max-height:none !important;
+    height:auto;
+    overflow:visible;
+    padding-bottom:8px;
+    border-right:0;
+    border-bottom:1px solid var(--line);
+  }
+
+  .library-head{
+    display:flex !important;
+    margin-top:6px;
+    padding:10px 4px 6px;
+  }
+
+  .song-list{
+    display:block !important;
+    flex:none;
+    max-height:260px;
+    min-height:72px;
+    overflow-y:auto;
+    margin-bottom:4px;
+    padding:0 1px 6px;
+    border-bottom:1px solid color-mix(in srgb,var(--line) 72%,transparent);
+  }
+
+  .song-row{
+    padding:8px 9px;
+  }
+
+  .main{
+    width:100%;
+    padding:8px;
+  }
+
+  .topline{
+    height:38px;
+  }
+
+  .header-card{
+    margin-top:0;
+  }
+}
+
+@media (max-width: 520px){
+  .song-list{max-height:220px}
+}
