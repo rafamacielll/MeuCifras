@@ -4,6 +4,7 @@
   const down = document.getElementById('pageDownBtn');
   const count = document.getElementById('pageNavCount');
   const desktopScroller = document.querySelector('.scroll');
+  const chordArea = document.getElementById('sheetBody');
   if (!nav || !up || !down || !count) return;
 
   const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
@@ -26,11 +27,30 @@
     return {type:'element', el, size, top, max, scrollHeight};
   }
 
+  // Mantém cerca de 3 linhas visíveis entre uma "página" e a próxima.
+  // Isso ajuda a pessoa a se situar durante a leitura da cifra.
+  function overlapPx(){
+    if (chordArea) {
+      const style = getComputedStyle(chordArea);
+      const lineHeight = parseFloat(style.lineHeight);
+      if (Number.isFinite(lineHeight) && lineHeight > 0) {
+        return Math.round(lineHeight * 3);
+      }
+    }
+    return isMobile() ? 78 : 86;
+  }
+
+  function stepSize(m){
+    const overlap = Math.min(overlapPx(), Math.max(40, m.size * 0.24));
+    return Math.max(120, m.size - overlap);
+  }
+
   function pageInfo(){
     const m = metrics();
-    const total = Math.max(1, Math.ceil(m.scrollHeight / Math.max(1, m.size)));
-    const current = Math.min(total, Math.max(1, Math.floor((m.top + m.size * 0.5) / m.size) + 1));
-    return {...m, total, current};
+    const step = stepSize(m);
+    const total = Math.max(1, Math.ceil(Math.max(0, m.scrollHeight - m.size) / step) + 1);
+    const current = Math.min(total, Math.max(1, Math.round(m.top / step) + 1));
+    return {...m, step, total, current};
   }
 
   function update(){
@@ -44,12 +64,14 @@
 
   function move(direction){
     const p = pageInfo();
-    const target = Math.max(0, Math.min(p.max, p.top + direction * p.size));
+    const target = Math.max(0, Math.min(p.max, p.top + direction * p.step));
+
     if (p.type === 'window') {
       window.scrollTo({top: target, behavior: 'smooth'});
     } else {
       p.el.scrollTo({top: target, behavior: 'smooth'});
     }
+
     window.setTimeout(update, 420);
   }
 
@@ -61,12 +83,12 @@
   window.addEventListener('resize', update);
   window.addEventListener('orientationchange', () => window.setTimeout(update, 250));
 
-  // Atualiza após a cifra/lista mudarem de tamanho.
   const observer = new ResizeObserver(() => update());
   const sheet = document.querySelector('.sheet');
   const songList = document.querySelector('.song-list');
   if (sheet) observer.observe(sheet);
   if (songList) observer.observe(songList);
+  if (chordArea) observer.observe(chordArea);
 
   update();
 })();
