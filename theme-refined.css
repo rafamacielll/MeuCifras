@@ -1,0 +1,269 @@
+:root{
+  --forest:#56644C;
+  --forest-strong:#394832;
+  --forest-soft:#DDE5D8;
+  --sage:#E9EFE5;
+  --cream:#F5EFE3;
+  --cream-2:#FBF7EF;
+  --paper:#FFFDF8;
+  --sidebar:#F7F2E8;
+  --surface:#F4F5EE;
+  --line:#D9D8CB;
+  --text:#1F271D;
+  --muted:#6E7569;
+  --charcoal:#20241F;
+  --bg:#F3EDDF;
+
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --sans:Inter,"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono:"Cascadia Mono","SFMono-Regular",Consolas,"Liberation Mono","Courier New",monospace;
+}
+
+body{
+  background:linear-gradient(180deg,#F4EEE3 0%,#F1EADB 100%);
+  color:var(--text);
+  font-family:var(--sans);
+}
+
+.app{background:transparent}
+
+.sidebar{
+  background:rgba(250,247,239,.94);
+  border-right:1px solid rgba(86,100,76,.16);
+  box-shadow:10px 0 28px rgba(61,70,55,.035);
+}
+.brand-title{
+  color:#24351F;
+  font-family:var(--serif);
+  font-weight:700;
+  letter-spacing:-.04em;
+}
+.brand-sub{color:#798071}
+
+.btn{
+  border-radius:11px;
+  background:#FDFBF5;
+  color:#283226;
+}
+.btn-primary{
+  background:linear-gradient(180deg,#44563B 0%,#34442E 100%);
+  color:#FAF8F1;
+  box-shadow:0 7px 18px rgba(52,68,46,.14);
+}
+.btn-outline{
+  border:1px solid #AEB9A7;
+  background:rgba(255,255,255,.46);
+}
+.filter-label,.library-head{color:#66705F}
+.field,.select,.mini-btn{
+  background:#FFFEFA;
+  border-color:#D6D8CD;
+  color:#283026;
+}
+.field:focus,.select:focus{
+  border-color:#85977B;
+  box-shadow:0 0 0 3px rgba(86,100,76,.11);
+}
+.count{background:#E4E8DD;color:#55604F}
+.song-row:hover{background:#F0F3EA}
+.song-row.active{
+  background:#E5ECDf;
+  box-shadow:inset 3px 0 0 var(--forest-strong), inset 0 0 0 1px #CCD6C6;
+}
+.song-title{color:#273424}
+.song-meta{color:#7A8175}
+
+.main{background:transparent}
+.theme-btn,
+.header-card,
+.sheet{
+  background:rgba(255,253,248,.94);
+  border-color:rgba(86,100,76,.13);
+  box-shadow:0 10px 32px rgba(79,74,59,.045);
+}
+.theme-btn{color:#31412C}
+.song-name{
+  color:#202A1E;
+  font-family:var(--serif);
+  font-weight:700;
+}
+.artist{color:#737B70}
+
+.action-btn{
+  background:#FFFDF8;
+  border-color:#D9DBD1;
+  color:#33402F;
+}
+.action-btn.green{
+  background:#485A3F;
+  border-color:#485A3F;
+  color:#fff;
+}
+.action-btn.red{
+  background:#FFF8F5;
+  color:#A1463C;
+  border-color:#E8C5BF;
+}
+
+.tool-strip{border-top-color:#E2E2D8}
+.pill{
+  background:#EAEFE5;
+  color:#46533F;
+}
+.tool-separator{background:#D7D9CF}
+.control-label{color:#65705F}
+.ctrl{
+  background:#FFFDF8;
+  border-color:#D7D9CF;
+  color:#3D4938;
+}
+.ctrl.active{
+  background:#56644C;
+  border-color:#56644C;
+  color:white;
+}
+
+.sheet{
+  background:#FFFDF9;
+}
+.chords{
+  color:#232A22;
+  font-family:var(--mono);
+  font-weight:700;
+  letter-spacing:.005em;
+}
+.chord-line{
+  color:#476B42;
+  font-weight:900;
+}
+.section-line{
+  display:inline-block;
+  width:auto;
+  margin:4px 0 2px;
+  padding:3px 9px;
+  border-radius:8px;
+  background:#E8EFE3;
+  color:#3F5C39;
+  font-weight:900;
+}
+
+.modal{
+  background:#FBF7EF;
+}
+.modal-head,.modal-foot{border-color:#E0DED3}
+.close{background:#ECEDE5;color:#33402F}
+.form-label{color:#64705E}
+.input-light,.select-light,.textarea-light{
+  background:#FFFDF9;
+  border-color:#D8D9D0;
+  color:#252C24;
+}
+.tip{color:#7A8175}
+
+/* DARK THEME */
+body.dark{
+  --bg:#0E1512;
+  --sidebar:#111915;
+  --paper:#151E19;
+  --surface:#18221C;
+  --line:#2B3930;
+  --text:#EEF2EA;
+  --muted:#9EA99C;
+  background:linear-gradient(180deg,#0D1411 0%,#101713 100%);
+}
+body.dark .sidebar{
+  background:rgba(14,22,18,.97);
+  border-right-color:#26332B;
+  box-shadow:10px 0 28px rgba(0,0,0,.16);
+}
+body.dark .brand-title{color:#F2F1E8}
+body.dark .brand-sub{color:#9CA69A}
+body.dark .btn{background:#17211B;color:#EDF1E9}
+body.dark .btn-primary{
+  background:linear-gradient(180deg,#46623E 0%,#324A2D 100%);
+  color:#F8FAF5;
+  box-shadow:none;
+}
+body.dark .btn-outline{background:transparent;border-color:#415344}
+body.dark .filter-label,
+body.dark .library-head{color:#A8B1A5}
+body.dark .field,
+body.dark .select,
+body.dark .mini-btn{
+  background:#16201A;
+  border-color:#334239;
+  color:#EEF2EA;
+}
+body.dark .field:focus,
+body.dark .select:focus{
+  border-color:#6D8568;
+  box-shadow:0 0 0 3px rgba(109,133,104,.12);
+}
+body.dark .count{background:#26342A;color:#C8D1C4}
+body.dark .song-row{color:#EEF2EA}
+body.dark .song-row:hover{background:#17221B}
+body.dark .song-row.active{
+  background:#29402A;
+  box-shadow:inset 3px 0 0 #7FA578, inset 0 0 0 1px #405742;
+}
+body.dark .song-title{color:#F0F3ED}
+body.dark .song-meta{color:#AFB7AB}
+body.dark .more{color:#9DA79A}
+
+body.dark .theme-btn,
+body.dark .header-card,
+body.dark .sheet{
+  background:#131C18;
+  border-color:#2A3830;
+  box-shadow:0 10px 28px rgba(0,0,0,.13);
+}
+body.dark .theme-btn{color:#EEF2EA}
+body.dark .song-name{color:#F2F1E9}
+body.dark .artist{color:#ADB5AA}
+body.dark .action-btn,
+body.dark .ctrl{
+  background:#151F1A;
+  color:#EDF1E9;
+  border-color:#334139;
+}
+body.dark .action-btn.green,
+body.dark .ctrl.active{
+  background:#405B3A;
+  border-color:#405B3A;
+  color:#fff;
+}
+body.dark .action-btn.red{
+  background:#221819;
+  color:#F07B70;
+  border-color:#6A3533;
+}
+body.dark .tool-strip{border-top-color:#2A3730}
+body.dark .pill{
+  background:#1B281F;
+  color:#D9E0D6;
+}
+body.dark .tool-separator{background:#2F3B33}
+body.dark .control-label{color:#ABB4A8}
+body.dark .chords{color:#EDF1E9}
+body.dark .chord-line{color:#7FD079}
+body.dark .section-line{
+  background:#1F3925;
+  color:#BEE4B7;
+}
+body.dark .modal{background:#121B17;color:#EDF1E9}
+body.dark .modal-head,
+body.dark .modal-foot{border-color:#2C3931}
+body.dark .close{background:#1A251F;color:#EDF1E9}
+body.dark .form-label{color:#AFB7AC}
+body.dark .input-light,
+body.dark .select-light,
+body.dark .textarea-light{
+  background:#15201A;
+  border-color:#334139;
+  color:#EDF1E9;
+}
+body.dark .tip{color:#9EA89D}
+
+@media(max-width:900px){
+  .main{background:var(--bg)}
+}
