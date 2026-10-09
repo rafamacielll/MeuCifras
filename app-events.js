@@ -1,49 +1,3 @@
-els.loginTab.addEventListener("click",()=>setAuthMode("login"));
-els.signupTab.addEventListener("click",()=>setAuthMode("signup"));
-els.authForm.addEventListener("submit",async e=>{
-  e.preventDefault();
-  if(!db)return;
-  const email=els.authEmail.value.trim(),password=els.authPassword.value;
-  els.authSubmitBtn.disabled=true;setAuthMessage("Aguarde...");
-  try{
-    if(authMode==="login"){
-      await signIn(email,password);
-      setAuthMessage("");
-    }else{
-      const data=await signUp(email,password);
-      if(data.session){
-        setAuthMessage("Conta criada.","success");
-      }else{
-        els.resendConfirmBtn.style.display="flex";
-        setAuthMessage("Conta criada. Confira seu e-mail para confirmar o cadastro.","success");
-      }
-    }
-  }catch(err){
-    const msg=err.message||"Não foi possível continuar.";
-    if(/confirm/i.test(msg))els.resendConfirmBtn.style.display="flex";
-    setAuthMessage(msg,"error");
-  }finally{
-    els.authSubmitBtn.disabled=false;
-  }
-});
-els.logoutBtn.addEventListener("click",async()=>{if(db)await db.auth.signOut()});
-els.resendConfirmBtn.addEventListener("click",async()=>{
-  if(!db)return;
-  const email=els.authEmail.value.trim();
-  if(!email){setAuthMessage("Digite seu e-mail acima.","error");return;}
-  els.resendConfirmBtn.disabled=true;
-  setAuthMessage("Reenviando confirmação...");
-  try{
-    await resendSignupConfirmation(email);
-    setAuthMessage("Novo e-mail enviado. Use o link mais recente.","success");
-  }catch(err){
-    setAuthMessage(err.message||"Não foi possível reenviar.","error");
-  }finally{
-    els.resendConfirmBtn.disabled=false;
-  }
-});
-
-
 els.list.addEventListener("click",e=>{const b=e.target.closest(".song-row");if(b)selectSong(b.dataset.id)});
 [els.search,els.artistFilter,els.genreFilter].forEach(el=>{
   const update=()=>{const visible=filteredSongs();if(currentSongId&&!visible.some(s=>s.id===currentSongId)){currentSongId=visible[0]?.id||null;transposeSteps=0}renderList();renderViewer()};
@@ -82,7 +36,7 @@ els.form.addEventListener("submit",async e=>{
   e.preventDefault();
   const song={id:els.id.value||null,title:els.title.value.trim(),artist:els.artist.value.trim(),genre:els.genre.value.trim(),song_key:els.key.value,bpm:els.bpm.value.trim(),notes:els.notes.value.trim(),chords:els.chords.value};
   if(!song.title||!song.artist||!song.genre)return;
-  try{currentSongId=await saveSong(song);transposeSteps=0;els.editDialog.close();refreshUI()}catch(err){alert("Não foi possível salvar a cifra.")}
+  try{currentSongId=await saveSong(song);transposeSteps=0;els.editDialog.close();refreshUI()}catch(err){console.error(err);alert("Não foi possível salvar a cifra.")}
 });
 document.addEventListener("click",e=>{const id=e.target.dataset?.close;if(id)document.getElementById(id)?.close()});
 
@@ -94,6 +48,5 @@ function applyTheme(theme){
 applyTheme(localStorage.getItem("meu-cifras-theme")||"light");
 els.themeToggle.addEventListener("click",()=>{const next=document.body.classList.contains("dark")?"light":"dark";localStorage.setItem("meu-cifras-theme",next);applyTheme(next)});
 
-setAuthMode("login");
 refreshUI();
-initAuth();
+initData();
