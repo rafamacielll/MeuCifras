@@ -54,7 +54,7 @@ initData();
 // Navegação por páginas: cada clique avança ou volta exatamente uma tela visível.
 const pageNavStyle=document.createElement("link");
 pageNavStyle.rel="stylesheet";
-pageNavStyle.href="./page-navigation.css";
+pageNavStyle.href="./page-navigation.css?v=20261025";
 document.head.appendChild(pageNavStyle);
 
 const pageNav=document.createElement("nav");
@@ -69,5 +69,5 @@ pageNav.innerHTML=`
 document.body.appendChild(pageNav);
 
 const pageNavScript=document.createElement("script");
-pageNavScript.src="./page-navigation.js";
+pageNavScript.src="./page-navigation.js?v=20261025";
 document.body.appendChild(pageNavScript);
