@@ -267,3 +267,170 @@ body.dark .tip{color:#9EA89D}
 @media(max-width:900px){
   .main{background:var(--bg)}
 }
+
+
+/* REFINED CHORD SHEET */
+.sheet{
+  width:100%;
+  max-width:1120px;
+  margin:0 auto;
+  padding:clamp(22px,3vw,38px);
+}
+.chords{
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+  color:var(--text);
+  font-size:18px;
+  font-weight:500;
+  line-height:1.45;
+  letter-spacing:0;
+}
+.sheet-source-title{
+  margin:0 0 22px;
+  color:var(--muted);
+  font:700 11px/1.4 var(--sans);
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.sheet-section{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  margin:25px 0 13px;
+  color:var(--forest-strong);
+  font:800 11px/1.2 var(--sans);
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.sheet-section::after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:color-mix(in srgb,var(--forest) 22%,transparent);
+}
+.sheet-song-line{
+  margin:0 0 15px;
+  break-inside:avoid;
+}
+.sheet-chords{
+  overflow-x:auto;
+  padding:0 0 3px 1px;
+  color:#527348;
+  font:800 .76em/1.3 var(--mono);
+  white-space:pre;
+  scrollbar-width:thin;
+}
+.sheet-lyric{
+  color:var(--text);
+  font:550 1em/1.48 var(--mono);
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.sheet-progression{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:7px;
+  margin:8px 0 15px;
+}
+.sheet-chord-chip{
+  display:inline-flex;
+  align-items:center;
+  min-height:27px;
+  padding:5px 9px;
+  border:1px solid #DDE6D8;
+  border-radius:7px;
+  background:#EFF4EB;
+  color:#47633F;
+  font:800 .75em/1.2 var(--mono);
+}
+.sheet-plain{
+  margin:0 0 7px;
+  color:var(--text);
+  font:550 1em/1.52 var(--mono);
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.sheet-gap{height:9px}
+.sheet-tab-wrap{
+  max-width:100%;
+  margin:9px 0 18px;
+  padding:13px 16px;
+  overflow-x:auto;
+  border:1px solid #E0E8DA;
+  border-radius:11px;
+  background:#F5F7F1;
+}
+.sheet-tab{
+  width:max-content;
+  min-width:100%;
+  margin:0;
+  color:#526B49;
+  font:600 .72em/1.55 var(--mono);
+  white-space:pre;
+}
+.sheet-chord-dictionary{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(155px,1fr));
+  gap:8px;
+  margin:8px 0 18px;
+}
+.sheet-chord-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-width:0;
+  padding:10px 12px;
+  border:1px solid #E1E6DC;
+  border-radius:9px;
+  background:#F8F9F5;
+}
+.sheet-chord-card strong{
+  color:#405B39;
+  font:800 13px/1.2 var(--sans);
+}
+.sheet-chord-card span{
+  color:#60695B;
+  font:600 11px/1.3 var(--mono);
+  white-space:nowrap;
+}
+body.dark .sheet-section{color:#B8D5AE}
+body.dark .sheet-section::after{background:#344A37}
+body.dark .sheet-chords{color:#9BC58D}
+body.dark .sheet-chord-chip{
+  border-color:#344A37;
+  background:#1D3022;
+  color:#C6E2BB;
+}
+body.dark .sheet-tab-wrap{
+  border-color:#344638;
+  background:#17221A;
+}
+body.dark .sheet-tab{color:#A9C99D}
+body.dark .sheet-chord-card{
+  border-color:#344638;
+  background:#19251D;
+}
+body.dark .sheet-chord-card strong{color:#C4E0B8}
+body.dark .sheet-chord-card span{color:#B6C3B0}
+@media(max-width:900px){
+  .sheet{padding:20px 16px}
+  .chords{max-width:100%}
+  .sheet-song-line{margin-bottom:13px}
+}
+@media(max-width:520px){
+  .sheet{padding:17px 12px}
+  .sheet-chord-dictionary{grid-template-columns:1fr 1fr}
+  .sheet-tab-wrap{padding:10px}
+  .sheet-section{margin:21px 0 11px}
+}
+@media print{
+  .sheet{max-width:none;padding:0}
+  .chords{max-width:none}
+  .sheet-tab-wrap,.sheet-chord-card,.sheet-chord-chip{
+    print-color-adjust:exact;
+    -webkit-print-color-adjust:exact;
+  }
+}
