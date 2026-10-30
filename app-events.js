@@ -12,6 +12,28 @@ els.deleteBtn.addEventListener("click",async()=>{
 });
 
 $("#createPlaylistBtn").addEventListener("click",()=>openPlaylistDialog());
+$("#addSongsToPlaylistBtn").addEventListener("click",openAddSongsDialog);
+$("#playlistSongPicker").addEventListener("click",async e=>{
+  const button=e.target.closest("[data-picker-song-id]");
+  if(!button)return;
+  const playlist=currentPlaylist();
+  const song=songs.find(s=>s.id===button.dataset.pickerSongId);
+  if(!playlist||!song)return;
+  const wasInside=(playlist.songIds||[]).includes(song.id);
+  button.disabled=true;
+  try{
+    await toggleSongInPlaylist(playlist,song);
+    if(!wasInside)currentSongId=song.id;
+    else if(currentSongId===song.id)currentSongId=filteredSongs()[0]?.id||null;
+    renderPlaylistSongPicker();
+    renderList();
+    renderViewer();
+  }catch(err){
+    console.error(err);
+    alert("Não foi possível atualizar a playlist. Tente novamente.");
+    button.disabled=false;
+  }
+});
 els.playlistForm.addEventListener("submit",async e=>{
   e.preventDefault();const name=els.playlistName.value.trim();if(!name)return;
   try{
