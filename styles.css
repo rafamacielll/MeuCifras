@@ -433,6 +433,37 @@ dialog::backdrop{
   font:600 15px/1.6 var(--mono);
 }
 .tip{font-size:10px;color:#80766D}
+.playlist-add-btn{height:30px;font-size:10px}
+.playlist-song-picker{display:grid;gap:5px}
+.playlist-picker-row{
+  align-items:center;
+  border:1px solid #E2D9CF;
+  background:#FFFDF9;
+}
+.playlist-picker-row .picker-state{
+  padding:5px 9px;
+  border-radius:999px;
+  background:#E9E2D8;
+  color:#554C44;
+  font-size:10px;
+  font-weight:800;
+}
+.playlist-picker-row .picker-state.inside{
+  background:#315342;
+  color:#fff;
+}
+body.dark .playlist-picker-row{
+  background:#2C2A26;
+  border-color:#49423A;
+}
+body.dark .playlist-picker-row .picker-state{
+  background:#403B35;
+  color:#F1EBE3;
+}
+body.dark .playlist-picker-row .picker-state.inside{
+  background:#506751;
+  color:#fff;
+}
 
 /* DARK MODE */
 body.dark{
