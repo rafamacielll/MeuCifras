@@ -74,14 +74,92 @@ function transposeText(text,steps){
   return(text||"").split("\n").map(line=>line.split(/(\s+)/).map(part=>/^\s+$/.test(part)?part:transposeToken(part,steps)).join("")).join("\n");
 }
 function renderSheet(song){
-  const text=transposeText(song.chords,transposeSteps);
-  els.sheetBody.innerHTML=(text||"Sem cifra cadastrada.").split("\n").map(line=>{
-    const safe=esc(line),trimmed=line.trim();
-    if(/^\[.*\]$/.test(trimmed))return`<div class="section-line">${safe}</div>`;
-    const chordLine=trimmed&&/^[A-G#bm\s/0-9()|.\-]+$/i.test(trimmed)&&/[A-G]/.test(trimmed);
-    if(chordLine)return`<div class="chord-line">${safe}</div>`;
-    return`<div>${safe||"&nbsp;"}</div>`;
-  }).join("");
+  const lines=(transposeText(song.chords,transposeSteps)||"Sem cifra cadastrada.").replace(/\r/g,"").split("\n");
+  const html=[];
+  let i=0,lastWasGap=false;
+
+  const chordToken=/^\(?[A-G](?:#|b)?(?:m|maj|min|dim|aug|sus\d*|add\d*|7M|M7)?\d*(?:\/[A-G](?:#|b)?)?[),.;:]?$/;
+  const isChordLine=line=>{
+    const value=line.trim();
+    if(!value||/^[eEBGDA]\|/.test(value))return false;
+    const tokens=value.replace(/[()]/g," ").trim().split(/\s+/);
+    return tokens.length>0&&tokens.every(token=>chordToken.test(token));
+  };
+  const isTabLine=line=>/^\s*[eEBGDA]\|/.test(line);
+  const isSection=line=>/^\s*\[[^\]]+\]\s*$/.test(line);
+  const isDiagramLine=line=>/^\s*[A-G](?:#|b)?(?:m|maj|min|dim|aug|sus\d*|add\d*|7M|M7)?\d*(?:\/[A-G](?:#|b)?)?\s*=\s*.+$/.test(line);
+  const add=(value)=>{html.push(value);lastWasGap=false};
+  const addGap=()=>{if(html.length&&!lastWasGap){html.push('<div class="sheet-gap" aria-hidden="true"></div>');lastWasGap=true}};
+  const progression=value=>{
+    const tokens=value.trim().replace(/^[()\s]+|[()\s]+$/g,"").split(/\s+/).filter(Boolean);
+    return '<div class="sheet-progression">'+tokens.map(chord=>'<span class="sheet-chord-chip">'+esc(chord)+'</span>').join("")+'</div>';
+  };
+
+  while(i<lines.length){
+    const line=lines[i],trimmed=line.trim();
+
+    if(!trimmed){addGap();i++;continue}
+
+    if(i===0&&trimmed&&!/^\[/.test(trimmed)){
+      add('<div class="sheet-source-title">'+esc(trimmed)+'</div>');
+      i++;
+      continue;
+    }
+
+    if(/^-{3,}\s*Acordes\s*-{3,}$/i.test(trimmed)){
+      addGap();
+      add('<div class="sheet-section"><span>Acordes utilizados</span></div>');
+      const cards=[];
+      i++;
+      while(i<lines.length&&lines[i].trim()){
+        const match=lines[i].match(/^\s*([A-G](?:#|b)?(?:m|maj|min|dim|aug|sus\d*|add\d*|7M|M7)?\d*(?:\/[A-G](?:#|b)?)?)\s*=\s*(.+)$/);
+        if(match)cards.push('<div class="sheet-chord-card"><strong>'+esc(match[1])+'</strong><span>'+esc(match[2].trim())+'</span></div>');
+        else cards.push('<div class="sheet-plain">'+esc(lines[i].trim())+'</div>');
+        i++;
+      }
+      if(cards.length)add('<div class="sheet-chord-dictionary">'+cards.join("")+'</div>');
+      continue;
+    }
+
+    if(isTabLine(line)){
+      const tab=[];
+      while(i<lines.length){
+        if(isTabLine(lines[i])){tab.push(lines[i]);i++;continue}
+        if(!lines[i].trim()&&i+1<lines.length&&isTabLine(lines[i+1])){i++;continue}
+        break;
+      }
+      add('<div class="sheet-tab-wrap"><pre class="sheet-tab">'+esc(tab.join("\n"))+'</pre></div>');
+      continue;
+    }
+
+    const sectionMatch=trimmed.match(/^\[([^\]]+)\]\s*(.*)$/);
+    if(sectionMatch){
+      const title=sectionMatch[1].trim(),extra=sectionMatch[2].trim();
+      addGap();
+      add('<div class="sheet-section"><span>'+esc(title)+'</span></div>');
+      if(extra&&isChordLine(extra))add(progression(extra));
+      else if(extra)add('<div class="sheet-plain">'+esc(extra)+'</div>');
+      i++;
+      continue;
+    }
+
+    if(isChordLine(line)){
+      const next=lines[i+1]||"";
+      if(next.trim()&&!isChordLine(next)&&!isTabLine(next)&&!isSection(next)&&!isDiagramLine(next)){
+        add('<div class="sheet-song-line"><div class="sheet-chords">'+esc(line)+'</div><div class="sheet-lyric">'+esc(next)+'</div></div>');
+        i+=2;
+      }else{
+        add(progression(trimmed));
+        i++;
+      }
+      continue;
+    }
+
+    add('<div class="sheet-plain">'+esc(line)+'</div>');
+    i++;
+  }
+
+  els.sheetBody.innerHTML=html.join("")||'<div class="sheet-plain">Sem cifra cadastrada.</div>';
   els.sheetBody.style.fontSize=fontSizePx+"px";
 }
 function updatePlaylistButton(){
