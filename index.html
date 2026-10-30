@@ -10,7 +10,7 @@
 <!-- Cache refresh: 2026-10-25; public no-login build -->
 <title>MeuCifras</title>
 
-<link rel="stylesheet" href="./styles.css?v=20261025">
+<link rel="stylesheet" href="./styles.css?v=20261030-2">
 <link rel="stylesheet" href="./theme-refined.css?v=20261025">
 <link rel="stylesheet" href="./mobile.css?v=20261025">
 
@@ -72,6 +72,9 @@
             <svg class="icon" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M9 7V4h6v3M6 7l1 14h10l1-14"/></svg>
           </button>
         </div>
+        <button id="addSongsToPlaylistBtn" class="btn btn-outline playlist-add-btn" type="button" hidden>
+          + Adicionar músicas à playlist
+        </button>
       </div>
 
       <div id="storageStatus" class="status">Carregando...</div>
@@ -184,6 +187,22 @@
   </form>
 </dialog>
 
+<dialog id="addSongsDialog">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>Adicionar músicas</h2>
+      <button class="close" type="button" data-close="addSongsDialog">×</button>
+    </div>
+    <div class="modal-body">
+      <p id="playlistPickerHint" class="tip">Selecione as músicas que deseja incluir.</p>
+      <div id="playlistSongPicker" class="playlist-song-picker"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="action-btn green" type="button" data-close="addSongsDialog">Concluir</button>
+    </div>
+  </div>
+</dialog>
+
 <dialog id="editDialog">
   <form id="songForm" class="modal">
 
@@ -259,8 +278,8 @@ Letra da música..."></textarea>
 <script src="./config.js?v=20261030"></script>
 
 <script src="./app-core.js?v=20261025"></script>
-<script src="./app-ui.js?v=20261025"></script>
-<script src="./app-events.js?v=20261025"></script>
+<script src="./app-ui.js?v=20261030-2"></script>
+<script src="./app-events.js?v=20261030-2"></script>
 
 
 </body>
