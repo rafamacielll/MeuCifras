@@ -21,7 +21,40 @@ function updatePlaylistUI(){
   els.playlistFilter.innerHTML='<option value="">Todas</option>'+playlists.slice().sort((a,b)=>a.name.localeCompare(b.name,"pt-BR")).map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");
   if(playlists.some(p=>p.id===selected))els.playlistFilter.value=selected;
   const p=currentPlaylist();els.renamePlaylistBtn.disabled=!p;els.deletePlaylistBtn.disabled=!p;
+  const addSongsBtn=$("#addSongsToPlaylistBtn");
+  if(addSongsBtn)addSongsBtn.hidden=!p;
   els.songsHeadLabel.textContent=p?p.name:"Minhas músicas";
+}
+
+function renderPlaylistSongPicker(){
+  const playlist=currentPlaylist();
+  const picker=$("#playlistSongPicker");
+  const hint=$("#playlistPickerHint");
+  if(!picker||!hint)return;
+  if(!playlist){
+    hint.textContent="Selecione uma playlist para adicionar músicas.";
+    picker.innerHTML="";
+    return;
+  }
+  hint.textContent="Playlist: "+playlist.name+". Adicione ou remova músicas usando os botões ao lado.";
+  const ordered=songs.slice().sort((a,b)=>a.title.localeCompare(b.title,"pt-BR"));
+  if(!ordered.length){
+    picker.innerHTML='<div class="tip">Ainda não há cifras cadastradas.</div>';
+    return;
+  }
+  picker.innerHTML=ordered.map(s=>{
+    const inside=(playlist.songIds||[]).includes(s.id);
+    return `<button type="button" class="song-row playlist-picker-row" data-picker-song-id="${s.id}">
+      <div><div class="song-title">${esc(s.title)}</div><div class="song-meta">${esc(s.artist)} · ${esc(s.genre)}</div></div>
+      <span class="picker-state ${inside?"inside":""}">${inside?"Remover":"Adicionar"}</span>
+    </button>`;
+  }).join("");
+}
+
+function openAddSongsDialog(){
+  if(!currentPlaylist())return;
+  renderPlaylistSongPicker();
+  $("#addSongsDialog").showModal();
 }
 function renderList(){
   const list=filteredSongs();els.count.textContent=list.length;
